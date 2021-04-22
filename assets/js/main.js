@@ -1,13 +1,15 @@
 function seletor() {
     const tecla = event.keyCode;
     const mouse = event.target;
-    console.log(tecla);
     if (tecla === 67 || tecla === 99 || mouse.value === 'C') {
         if(!tecla){
-            document.getElementById('display').innerHTML = '';
-            
+            document.getElementById('display').innerHTML = '0';
+            ehNovoNumero = true;
+            resultado = 0;
         }else { 
-            document.getElementById('display').innerHTML = '';
+            document.getElementById('display').innerHTML = '0';
+            ehNovoNumero = true;
+            resultado = 0;
         }
     } else if (tecla === 60 || mouse.value === '←') {
         let resultado = document.getElementById('display').innerHTML;
@@ -78,10 +80,15 @@ function seletor() {
         num('0');
     }
     else if (tecla === 62 || mouse.value === '.') {
-        console.log('.');
-        num('.');
+        let resultado = document.getElementById('display').innerHTML;
+        if (ehNovoNumero) {
+            document.getElementById('display').innerHTML = '0.';
+            ehNovoNumero = false;
+        } else if (resultado.indexOf('.')==-1){
+            document.getElementById('display').innerHTML += '.';
+        }
     }
-    else if (tecla === 61 || mouse.value === '=') { 
+    else if (tecla === 13 ||  tecla === 61 || mouse.value === '=') { 
         let resultado = document.getElementById('display').innerHTML;
         if(resultado){
             document.getElementById('display').innerHTML = eval(resultado);
@@ -92,14 +99,19 @@ function seletor() {
     
 }
 
-
+let ehNovoNumero = true;
 document.addEventListener('keypress', seletor);
 document.addEventListener('click', seletor);
 
 
 function num (n) {
-    let numero = document.getElementById('display').innerHTML;
-    document.getElementById('display').innerHTML = numero + n;
+    if (ehNovoNumero) {
+        document.getElementById('display').innerHTML = '' + n;
+        ehNovoNumero = false;
+    } else {
+        let numero = document.getElementById('display').innerHTML;
+        document.getElementById('display').innerHTML = numero + n;
+    }
 }
 
 
